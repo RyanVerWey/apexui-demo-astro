@@ -12,7 +12,10 @@ body {
   min-width: 320px;
   margin: 0;
   color: var(--apex-color-text);
-  background: var(--apex-color-canvas);
+  background:
+    radial-gradient(circle at top left, color-mix(in oklab, var(--apex-color-accent) 14%, transparent), transparent 32rem),
+    var(--apex-color-canvas);
+  overflow-x: hidden;
 }
 
 * {
@@ -22,9 +25,13 @@ body {
 .app-shell {
   display: grid;
   min-height: 100vh;
+  min-width: 0;
   gap: var(--apex-space-6);
   padding: var(--apex-space-4);
-  background: var(--apex-color-canvas);
+}
+
+.app-shell > * {
+  min-width: 0;
 }
 
 .app-nav,
@@ -32,8 +39,13 @@ body {
 .app-actions {
   display: flex;
   flex-wrap: wrap;
+  min-width: 0;
   gap: var(--apex-space-3);
   align-items: center;
+}
+
+.app-actions > * {
+  min-width: 0;
 }
 
 .app-main {
@@ -45,21 +57,50 @@ body {
 .app-page,
 .app-section,
 .app-card-stack,
-.app-copy {
+.hero-copy {
   display: grid;
+  min-width: 0;
   gap: var(--apex-space-6);
 }
 
-.app-hero,
+.app-page > *,
+.app-section > *,
+.app-card-stack > *,
+.hero-band > *,
+.page-intro > *,
+.app-two-column > *,
+.feature-grid > *,
+.metric-strip > *,
+.app-form-grid > * {
+  min-width: 0;
+}
+
+.hero-band,
+.page-intro,
 .app-two-column {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.85fr);
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.82fr);
   gap: var(--apex-space-6);
   align-items: start;
 }
 
+.hero-band {
+  align-items: center;
+  min-height: clamp(28rem, 66vh, 42rem);
+  padding-block: var(--apex-space-4);
+}
+
+.page-intro {
+  align-items: end;
+}
+
 .app-two-column-wide {
-  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+  grid-template-columns: minmax(0, 1.24fr) minmax(280px, 0.76fr);
+}
+
+.signal-panel {
+  display: grid;
+  gap: var(--apex-space-4);
 }
 
 .app-section-header {
@@ -70,13 +111,15 @@ body {
   justify-content: space-between;
 }
 
-.app-grid {
-  display: grid;
-  gap: var(--apex-space-4);
+.app-section-header.compact {
+  margin-block-end: var(--apex-space-4);
 }
 
-.app-grid-four {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+.feature-grid,
+.metric-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--apex-space-4);
 }
 
 .app-form-grid {
@@ -86,17 +129,68 @@ body {
   align-items: start;
 }
 
-apex-card,
+.form-wide {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
+.metric-row,
+.record-list,
+.proof-note {
+  display: grid;
+  gap: var(--apex-space-3);
+}
+
+.metric-row {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.metric-row span,
+.record-list span,
+.proof-note {
+  min-width: 0;
+  color: var(--apex-color-text);
+}
+
+.metric-row strong,
+.record-list strong {
+  display: block;
+  color: var(--apex-color-heading);
+}
+
+.proof-note {
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+}
+
+apex-stack,
+apex-typography,
+apex-app-bar,
 apex-alert,
+apex-autocomplete,
+apex-badge,
+apex-breadcrumbs,
+apex-button-group,
+apex-card,
 apex-data-table,
 apex-data-grid,
-apex-workflow-board,
-apex-toolbar {
+apex-date-picker,
+apex-radio-group,
+apex-search-form,
+apex-select,
+apex-tabs,
+apex-text-field,
+apex-textarea,
+apex-time-picker,
+apex-toolbar,
+apex-workflow-board {
+  display: block;
   min-width: 0;
 }
 
 @media (max-width: 1080px) {
-  .app-grid-four {
+  .feature-grid,
+  .metric-strip {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -106,15 +200,45 @@ apex-toolbar {
     padding: var(--apex-space-3);
   }
 
-  .app-hero,
+  .hero-band,
+  .page-intro,
   .app-two-column,
   .app-two-column-wide,
   .app-form-grid,
-  .app-grid-four {
+  .feature-grid,
+  .metric-strip,
+  .metric-row {
     grid-template-columns: 1fr;
+  }
+
+  .hero-band {
+    min-height: auto;
   }
 
   .app-section-header {
     align-items: stretch;
+  }
+
+  .apex-app-bar {
+    display: grid;
+    grid-template-columns: 1fr;
+    max-width: 100%;
+    gap: var(--apex-space-3);
+  }
+
+  .apex-app-bar-nav,
+  .apex-app-bar-actions {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .apex-app-bar-nav {
+    overflow-x: auto;
+  }
+
+  .app-nav {
+    flex-wrap: nowrap;
+    width: max-content;
+    max-width: none;
   }
 }

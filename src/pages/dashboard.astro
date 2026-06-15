@@ -1,0 +1,133 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const base = import.meta.env.BASE_URL;
+
+const breadcrumbs = JSON.stringify([
+  { label: "Northstar", href: base },
+  { label: "Dashboard" },
+]);
+
+const chartData = JSON.stringify([
+  { label: "On site", value: 32 },
+  { label: "Queued", value: 21 },
+  { label: "Parts hold", value: 9 },
+  { label: "Closed", value: 64 },
+]);
+
+const backlogData = JSON.stringify([
+  { label: "Critical", value: 8 },
+  { label: "High", value: 19 },
+  { label: "Normal", value: 47 },
+  { label: "Low", value: 12 },
+]);
+
+const queueColumns = JSON.stringify([
+  { key: "ticket", header: "Ticket" },
+  { key: "site", header: "Site" },
+  { key: "owner", header: "Owner" },
+  { key: "sla", header: "SLA" },
+]);
+
+const queueRows = JSON.stringify([
+  { ticket: "WO-1842", site: "Beacon Retail 14", owner: "Mara Chen", sla: "42 min" },
+  { ticket: "WO-1843", site: "Cedarline West", owner: "Owen Patel", sla: "1 hr 15 min" },
+  { ticket: "WO-1844", site: "Prairie Foods Dock 3", owner: "Inez Cruz", sla: "2 hr 05 min" },
+  { ticket: "WO-1845", site: "Marsh Labs", owner: "Unassigned", sla: "3 hr 20 min" },
+]);
+
+const boardColumns = JSON.stringify([
+  {
+    id: "new",
+    title: "New",
+    items: [
+      { id: "n1", title: "Leak report, suite 210", meta: "HVAC" },
+      { id: "n2", title: "Generator test failed", meta: "Electrical" },
+    ],
+  },
+  {
+    id: "routed",
+    title: "Routed",
+    items: [
+      { id: "r1", title: "Dock sensor replacement", meta: "Team 4" },
+      { id: "r2", title: "Rooftop unit inspection", meta: "Team 7" },
+    ],
+  },
+  {
+    id: "closed",
+    title: "Closed",
+    items: [
+      { id: "c1", title: "Lobby access reader", meta: "Signed" },
+      { id: "c2", title: "Freezer alarm calibration", meta: "Billed" },
+    ],
+  },
+]);
+---
+
+<BaseLayout title="Metrics Dashboard | Northstar Field Services">
+  <main class="app-main">
+    <div class="app-page">
+      <apex-breadcrumbs items={breadcrumbs} label="Page breadcrumb"></apex-breadcrumbs>
+
+      <section class="page-intro" aria-labelledby="dashboard-title">
+        <div>
+          <apex-badge tone="info">Operations desk</apex-badge>
+          <apex-typography id="dashboard-title" as="h1" variant="display">Metrics dashboard</apex-typography>
+          <apex-typography variant="body">
+            A morning view for dispatch leads balancing service level risk, crew utilization, and closeout readiness.
+          </apex-typography>
+        </div>
+        <apex-toolbar label="Dashboard tools">
+          <apex-button size="sm">Refresh</apex-button>
+          <apex-button size="sm" variant="secondary">Export</apex-button>
+        </apex-toolbar>
+      </section>
+
+      <section class="metric-strip" aria-label="Daily metrics">
+        <apex-card eyebrow="SLA" heading="94% protected">
+          <apex-progress label="SLA coverage" value="94"></apex-progress>
+        </apex-card>
+        <apex-card eyebrow="Crews" heading="18 active">
+          <apex-progress label="Crew utilization" value="81"></apex-progress>
+        </apex-card>
+        <apex-card eyebrow="Revenue" heading="$82.4k ready">
+          <apex-progress label="Billable closeout" value="68"></apex-progress>
+        </apex-card>
+      </section>
+
+      <section class="app-two-column app-two-column-wide" aria-label="Charts and status">
+        <apex-card eyebrow="Queue" heading="Work order state">
+          <apex-chart label="Current ticket mix" data={chartData}></apex-chart>
+        </apex-card>
+        <apex-card eyebrow="Risk" heading="Backlog pressure">
+          <apex-chart label="Backlog by priority" data={backlogData}></apex-chart>
+        </apex-card>
+      </section>
+
+      <section class="app-section" aria-labelledby="workflow-title">
+        <div class="app-section-header">
+          <div>
+            <apex-typography id="workflow-title" as="h2" variant="title">Dispatch workflow</apex-typography>
+            <apex-typography variant="body">Status widgets and tables share the same rose token surface.</apex-typography>
+          </div>
+          <apex-tabs
+            label="Dashboard window"
+            items='[{"id":"today","label":"Today"},{"id":"week","label":"Week"},{"id":"month","label":"Month"}]'
+            active-id="today"
+          ></apex-tabs>
+        </div>
+        <div class="app-two-column app-two-column-wide">
+          <apex-card eyebrow="Board" heading="Ticket movement">
+            <apex-workflow-board columns={boardColumns}></apex-workflow-board>
+          </apex-card>
+          <div class="app-card-stack">
+            <apex-data-table caption="SLA queue" columns={queueColumns} rows={queueRows}></apex-data-table>
+            <apex-alert tone="warning" heading="Watch list">
+              Three sites need part confirmation before noon to protect premium account commitments.
+            </apex-alert>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</BaseLayout>

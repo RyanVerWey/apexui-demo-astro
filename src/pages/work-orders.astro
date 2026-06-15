@@ -1,0 +1,137 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const base = import.meta.env.BASE_URL;
+
+const breadcrumbs = JSON.stringify([
+  { label: "Northstar", href: base },
+  { label: "Work orders" },
+]);
+
+const tradeOptions = JSON.stringify([
+  { label: "HVAC", value: "hvac" },
+  { label: "Electrical", value: "electrical" },
+  { label: "Facilities", value: "facilities" },
+  { label: "Specialty contractor", value: "specialty" },
+]);
+
+const priorityOptions = JSON.stringify([
+  { label: "Emergency", value: "emergency", description: "Immediate dispatch and manager alert." },
+  { label: "Same day", value: "same-day", description: "Protect current business day SLA." },
+  { label: "Scheduled", value: "scheduled", description: "Book into next available service window." },
+]);
+
+const siteOptions = JSON.stringify([
+  "Beacon Retail 14",
+  "Cedarline West Campus",
+  "Prairie Foods Dock 3",
+  "Marsh Labs Annex",
+]);
+
+const intakeSteps = JSON.stringify([
+  { id: "request", label: "Request", description: "Capture account, site, and issue." },
+  { id: "schedule", label: "Schedule", description: "Set trade, priority, and arrival window." },
+  { id: "dispatch", label: "Dispatch", description: "Confirm crew notes and proof needs." },
+]);
+---
+
+<BaseLayout title="Work Order Form | Northstar Field Services">
+  <main class="app-main">
+    <div class="app-page">
+      <apex-breadcrumbs items={breadcrumbs} label="Page breadcrumb"></apex-breadcrumbs>
+
+      <section class="page-intro" aria-labelledby="work-order-title">
+        <div>
+          <apex-badge tone="success">Intake</apex-badge>
+          <apex-typography id="work-order-title" as="h1" variant="display">Create work order</apex-typography>
+          <apex-typography variant="body">
+            The form uses ApexUI controls for real customer intake: validation hints, dates, selections, upload, and closeout requirements.
+          </apex-typography>
+        </div>
+        <apex-card eyebrow="Progress" heading="Request detail">
+          <apex-stepper steps={intakeSteps} active-index="0"></apex-stepper>
+        </apex-card>
+      </section>
+
+      <section class="app-two-column app-two-column-wide" aria-label="Work order form">
+        <apex-card eyebrow="Form" heading="Service request">
+          <form class="app-form-grid">
+            <apex-autocomplete
+              label="Site"
+              options={siteOptions}
+              value="Beacon Retail 14"
+              hint="Start with customer or site name."
+            ></apex-autocomplete>
+            <apex-text-field
+              label="Requester"
+              name="requester"
+              value="Dana Ortiz"
+              hint="Person who approved service."
+            ></apex-text-field>
+            <apex-select label="Trade" name="trade" options={tradeOptions} value="hvac"></apex-select>
+            <apex-date-picker label="Requested date" name="requested-date" value="2026-06-16"></apex-date-picker>
+            <apex-time-picker label="Arrival window" name="arrival-window" value="09:30"></apex-time-picker>
+            <apex-text-field
+              label="Purchase order"
+              name="purchase-order"
+              placeholder="PO or approval code"
+              error="Required for premium accounts before dispatch."
+            ></apex-text-field>
+            <div class="form-wide">
+              <apex-radio-group
+                label="Priority"
+                name="priority"
+                options={priorityOptions}
+                value="same-day"
+              ></apex-radio-group>
+            </div>
+            <div class="form-wide">
+              <apex-textarea
+                label="Issue description"
+                name="issue"
+                rows="5"
+                value="Customer reports intermittent rooftop unit shutdown and warm air in the west sales floor."
+              ></apex-textarea>
+            </div>
+            <apex-text-field
+              label="Upload photo"
+              name="photo"
+              type="file"
+              hint="Attach site image, quote, or approval document."
+            ></apex-text-field>
+            <apex-select
+              label="Closeout proof"
+              name="proof"
+              options='[{"label":"Photo and signature","value":"photo-signature"},{"label":"Technician notes only","value":"notes"},{"label":"Manager approval","value":"approval"}]'
+              value="photo-signature"
+            ></apex-select>
+            <div class="form-wide">
+              <apex-checkbox
+                label="Notify account manager"
+                description="Send intake summary after the work order is saved."
+                checked
+              ></apex-checkbox>
+            </div>
+            <div class="form-wide app-actions">
+              <apex-button type="submit">Save work order</apex-button>
+              <apex-button type="reset" variant="secondary">Clear draft</apex-button>
+            </div>
+          </form>
+        </apex-card>
+
+        <div class="app-card-stack">
+          <apex-alert tone="info" heading="Validation smoke">
+            PO shows an error state, date and time controls render independently, and the file field stays inside the responsive form grid.
+          </apex-alert>
+          <apex-card eyebrow="Dispatch notes" heading="Recommended crew">
+            <div class="record-list">
+              <span><strong>Team 7</strong> has HVAC certification and one open slot near the site.</span>
+              <span><strong>Parts</strong> filter set: rooftop unit sensor kit, belt pack, access reader.</span>
+              <span><strong>Customer tier</strong> premium, same-day communication expected.</span>
+            </div>
+          </apex-card>
+        </div>
+      </section>
+    </div>
+  </main>
+</BaseLayout>

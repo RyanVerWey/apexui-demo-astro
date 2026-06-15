@@ -1,0 +1,139 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const base = import.meta.env.BASE_URL;
+
+const breadcrumbs = JSON.stringify([
+  { label: "Northstar", href: base },
+  { label: "Customers" },
+]);
+
+const customerColumns = JSON.stringify([
+  { key: "account", header: "Account" },
+  { key: "stage", header: "Stage" },
+  { key: "owner", header: "Owner" },
+  { key: "value", header: "Value" },
+]);
+
+const customerRows = JSON.stringify([
+  { account: "Cedarline Health", stage: "Renewal", owner: "Riley Moss", value: "$420k" },
+  { account: "Beacon Retail", stage: "Expansion", owner: "Inez Cruz", value: "$315k" },
+  { account: "Prairie Foods", stage: "Onboarding", owner: "Mara Chen", value: "$188k" },
+  { account: "Marsh Labs", stage: "Proposal", owner: "Theo Grant", value: "$96k" },
+]);
+
+const boardColumns = JSON.stringify([
+  {
+    id: "prospect",
+    title: "Prospect",
+    items: [
+      { id: "p1", title: "Marsh Labs", meta: "$96k" },
+      { id: "p2", title: "Juniper Campus", meta: "$74k" },
+    ],
+  },
+  {
+    id: "active",
+    title: "Active",
+    items: [
+      { id: "a1", title: "Prairie Foods", meta: "Onboarding" },
+      { id: "a2", title: "Beacon Retail", meta: "Expansion" },
+    ],
+  },
+  {
+    id: "retained",
+    title: "Retained",
+    items: [
+      { id: "r1", title: "Cedarline Health", meta: "Renewal" },
+      { id: "r2", title: "Harbor Hotels", meta: "QBR" },
+    ],
+  },
+]);
+
+const siteTree = JSON.stringify([
+  {
+    id: "cedarline",
+    label: "Cedarline Health",
+    children: [
+      { id: "west", label: "West campus" },
+      { id: "north", label: "North clinic" },
+      { id: "central", label: "Central lab" },
+    ],
+  },
+  {
+    id: "beacon",
+    label: "Beacon Retail",
+    children: [
+      { id: "store-14", label: "Store 14" },
+      { id: "store-28", label: "Store 28" },
+    ],
+  },
+]);
+---
+
+<BaseLayout title="Customer Records | Northstar Field Services">
+  <main class="app-main">
+    <div class="app-page">
+      <apex-breadcrumbs items={breadcrumbs} label="Page breadcrumb"></apex-breadcrumbs>
+
+      <section class="page-intro" aria-labelledby="customers-title">
+        <div>
+          <apex-badge tone="info">Pipeline</apex-badge>
+          <apex-typography id="customers-title" as="h1" variant="display">Customer records</apex-typography>
+          <apex-typography variant="body">
+            Account teams can scan commercial relationships, site trees, open opportunities, and service health without leaving the routed app.
+          </apex-typography>
+        </div>
+        <apex-search-form label="Search customer records" placeholder="Account, site, contact"></apex-search-form>
+      </section>
+
+      <section class="app-two-column app-two-column-wide" aria-label="Pipeline board and account detail">
+        <apex-card eyebrow="Pipeline" heading="Revenue movement">
+          <apex-workflow-board columns={boardColumns}></apex-workflow-board>
+        </apex-card>
+
+        <apex-card eyebrow="Selected account" heading="Cedarline Health">
+          <div class="record-list">
+            <span><strong>Tier</strong> premium regional healthcare network</span>
+            <span><strong>Primary contact</strong> Amara Lewis, facilities director</span>
+            <span><strong>Open risk</strong> renewal depends on imaging wing uptime report</span>
+          </div>
+          <apex-divider label="Health"></apex-divider>
+          <apex-progress label="Renewal confidence" value="86"></apex-progress>
+          <apex-rating label="Service sentiment" value="5"></apex-rating>
+        </apex-card>
+      </section>
+
+      <section class="app-two-column" aria-label="Customer records">
+        <apex-data-grid caption="Account grid" columns={customerColumns} rows={customerRows}></apex-data-grid>
+        <apex-card eyebrow="Sites" heading="Account hierarchy">
+          <apex-tree-view label="Customer site tree" items={siteTree}></apex-tree-view>
+        </apex-card>
+      </section>
+
+      <section class="app-section" aria-labelledby="activity-title">
+        <div class="app-section-header">
+          <div>
+            <apex-typography id="activity-title" as="h2" variant="title">Latest account activity</apex-typography>
+            <apex-typography variant="body">List and detail patterns round out the customer workspace.</apex-typography>
+          </div>
+          <apex-toggle-group
+            label="Record view"
+            options='[{"label":"All","value":"all"},{"label":"Open","value":"open"},{"label":"At risk","value":"risk"}]'
+            value="open"
+          ></apex-toggle-group>
+        </div>
+        <div class="feature-grid">
+          <apex-card eyebrow="Today" heading="Beacon Retail expansion">
+            Three new stores added to the preventive maintenance proposal.
+          </apex-card>
+          <apex-card eyebrow="Yesterday" heading="Prairie Foods onboarding">
+            Site access contacts confirmed for cold-chain equipment audit.
+          </apex-card>
+          <apex-card eyebrow="Friday" heading="Cedarline renewal proof">
+            Uptime export and closeout packet queued for quarterly review.
+          </apex-card>
+        </div>
+      </section>
+    </div>
+  </main>
+</BaseLayout>

@@ -2,7 +2,17 @@
 import "@apexui/tokens/css";
 import "../styles.css";
 
-const { title = "ApexUI Astro Demo" } = Astro.props;
+const { title = "Northstar Field Services" } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const currentPath = Astro.url.pathname.replace(/\/$/, "");
+const navItems = [
+  { href: base, label: "Home", path: base.replace(/\/$/, "") },
+  { href: `${base}dashboard/`, label: "Dashboard", path: `${base}dashboard` },
+  { href: `${base}work-orders/`, label: "Work orders", path: `${base}work-orders` },
+  { href: `${base}customers/`, label: "Customers", path: `${base}customers` },
+  { href: `${base}settings/`, label: "Settings", path: `${base}settings` },
+  { href: `${base}about/`, label: "Proof", path: `${base}about` },
+];
 ---
 <!doctype html>
 <html lang="en" data-apex-theme="rose-light">
@@ -11,21 +21,28 @@ const { title = "ApexUI Astro Demo" } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Static Astro app composed with ApexUI web components and rose design tokens."
+      content="Northstar Field Services demo site built with Astro routing, ApexUI web components, and rose tokens."
     />
     <title>{title}</title>
   </head>
   <body>
     <div class="app-shell">
-      <apex-app-bar heading="ApexUI Astro">
-        <apex-badge tone="info">Static app</apex-badge>
+      <apex-app-bar heading="Northstar Field Services">
+        <apex-badge tone="info">Astro demo</apex-badge>
         <nav class="app-nav" slot="navigation" aria-label="Primary">
-          <apex-link href="#system" variant="subtle">System</apex-link>
-          <apex-link href="#compose" variant="subtle">Compose</apex-link>
-          <apex-link href="#ship" variant="subtle">Ship</apex-link>
+          {
+            navItems.map((item) => (
+              <apex-link
+                href={item.href}
+                variant={currentPath === item.path ? "standalone" : "subtle"}
+              >
+                {item.label}
+              </apex-link>
+            ))
+          }
         </nav>
         <div class="app-theme" slot="actions">
-          <apex-switch id="theme-switch" label="Dark rose"></apex-switch>
+          <apex-switch id="theme-switch" label="Dark"></apex-switch>
         </div>
       </apex-app-bar>
 
@@ -36,8 +53,10 @@ const { title = "ApexUI Astro Demo" } = Astro.props;
       import "@apexui/web-components/components/apex-accordion.js";
       import "@apexui/web-components/components/apex-alert.js";
       import "@apexui/web-components/components/apex-app-bar.js";
+      import "@apexui/web-components/components/apex-autocomplete.js";
       import "@apexui/web-components/components/apex-avatar.js";
       import "@apexui/web-components/components/apex-badge.js";
+      import "@apexui/web-components/components/apex-button-group.js";
       import "@apexui/web-components/components/apex-box.js";
       import "@apexui/web-components/components/apex-breadcrumbs.js";
       import "@apexui/web-components/components/apex-button.js";
@@ -45,6 +64,7 @@ const { title = "ApexUI Astro Demo" } = Astro.props;
       import "@apexui/web-components/components/apex-chart.js";
       import "@apexui/web-components/components/apex-checkbox.js";
       import "@apexui/web-components/components/apex-chip.js";
+      import "@apexui/web-components/components/apex-date-picker.js";
       import "@apexui/web-components/components/apex-data-grid.js";
       import "@apexui/web-components/components/apex-data-table.js";
       import "@apexui/web-components/components/apex-divider.js";
@@ -63,6 +83,7 @@ const { title = "ApexUI Astro Demo" } = Astro.props;
       import "@apexui/web-components/components/apex-tabs.js";
       import "@apexui/web-components/components/apex-text-field.js";
       import "@apexui/web-components/components/apex-textarea.js";
+      import "@apexui/web-components/components/apex-time-picker.js";
       import "@apexui/web-components/components/apex-timeline.js";
       import "@apexui/web-components/components/apex-toggle-group.js";
       import "@apexui/web-components/components/apex-toolbar.js";
