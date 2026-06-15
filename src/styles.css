@@ -1,85 +1,120 @@
 :root {
-  color-scheme: light dark;
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--apex-font-family-sans);
+  color: var(--apex-color-text);
+  background: var(--apex-color-canvas);
 }
 
-* { box-sizing: border-box; }
+html {
+  scroll-behavior: smooth;
+}
 
 body {
+  min-width: 320px;
   margin: 0;
-  background: var(--apex-color-background, #f7f8f5);
-  color: var(--apex-color-foreground, #1b211b);
+  color: var(--apex-color-text);
+  background: var(--apex-color-canvas);
 }
 
-.demo-shell {
+* {
+  box-sizing: border-box;
+}
+
+.app-shell {
+  display: grid;
   min-height: 100vh;
-  padding: 24px;
-  background:
-    radial-gradient(circle at top left, color-mix(in oklch, var(--apex-color-primary, #5f7d3a) 18%, transparent), transparent 34rem),
-    linear-gradient(135deg, color-mix(in oklch, var(--apex-color-surface, #f7f8f5) 94%, var(--apex-color-primary, #5f7d3a)), var(--apex-color-background, #f7f8f5));
+  gap: var(--apex-space-6);
+  padding: var(--apex-space-4);
+  background: var(--apex-color-canvas);
 }
 
-.demo-frame {
-  max-width: 1180px;
+.app-nav,
+.app-theme,
+.app-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--apex-space-3);
+  align-items: center;
+}
+
+.app-main {
+  width: min(100%, 1180px);
   margin: 0 auto;
+  padding-block-end: var(--apex-space-8);
+}
+
+.app-page,
+.app-section,
+.app-card-stack,
+.app-copy {
   display: grid;
-  gap: 20px;
+  gap: var(--apex-space-6);
 }
 
-.demo-nav,
-.demo-panel,
-.demo-hero,
-.demo-grid,
-.demo-workspace {
-  animation: rise 220ms ease-out both;
-}
-
-.demo-hero {
+.app-hero,
+.app-two-column {
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr);
-  gap: 18px;
-  align-items: stretch;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.85fr);
+  gap: var(--apex-space-6);
+  align-items: start;
 }
 
-.demo-panel {
-  border: 1px solid var(--apex-color-border, #d8dece);
-  background: color-mix(in oklch, var(--apex-color-surface, #f8faf6) 94%, transparent);
-  border-radius: 8px;
-  padding: 18px;
-  box-shadow: 0 18px 48px color-mix(in oklch, var(--apex-color-foreground, #182018) 12%, transparent);
+.app-two-column-wide {
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
 }
 
-.demo-grid {
+.app-section-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--apex-space-4);
+  align-items: end;
+  justify-content: space-between;
+}
+
+.app-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
+  gap: var(--apex-space-4);
 }
 
-.demo-workspace {
+.app-grid-four {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.app-form-grid {
   display: grid;
-  grid-template-columns: 260px minmax(0, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--apex-space-4);
+  align-items: start;
 }
 
-.demo-stack { display: grid; gap: 12px; }
-.demo-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-.demo-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
-.demo-list li { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
-.demo-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-.demo-kpi { padding: 12px; border: 1px solid var(--apex-color-border); border-radius: 8px; background: var(--apex-color-surface); }
-.demo-kpi strong { display: block; font-size: 1.4rem; line-height: 1.1; }
-
-@keyframes rise {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+apex-card,
+apex-alert,
+apex-data-table,
+apex-data-grid,
+apex-workflow-board,
+apex-toolbar {
+  min-width: 0;
 }
 
-@media (max-width: 860px) {
-  .demo-shell { padding: 14px; }
-  .demo-hero, .demo-grid, .demo-workspace { grid-template-columns: 1fr; }
-  .demo-kpis { grid-template-columns: 1fr; }
+@media (max-width: 1080px) {
+  .app-grid-four {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .demo-nav, .demo-panel, .demo-hero, .demo-grid, .demo-workspace { animation: none; }
+@media (max-width: 780px) {
+  .app-shell {
+    padding: var(--apex-space-3);
+  }
+
+  .app-hero,
+  .app-two-column,
+  .app-two-column-wide,
+  .app-form-grid,
+  .app-grid-four {
+    grid-template-columns: 1fr;
+  }
+
+  .app-section-header {
+    align-items: stretch;
+  }
 }

@@ -1,7 +1,267 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-const chartData = '[{ "label": "Tokens", "value": 92 }, { "label": "Components", "value": 84 }, { "label": "Routes", "value": 73 }]';
-const rows = '[{ "area": "Tokens", "owner": "Platform", "status": "Live" }, { "area": "Components", "owner": "Design system", "status": "Beta" }, { "area": "Docs", "owner": "DX", "status": "Linked" }]';
-const columns = '[{ "key": "area", "header": "Area" }, { "key": "owner", "header": "Owner" }, { "key": "status", "header": "Status" }]';
+
+const breadcrumbs = JSON.stringify([
+  { label: "ApexUI", href: "#" },
+  { label: "Demos", href: "#" },
+  { label: "Astro" },
+]);
+
+const chartData = JSON.stringify([
+  { label: "Tokens", value: 96 },
+  { label: "Components", value: 88 },
+  { label: "Patterns", value: 81 },
+  { label: "Docs", value: 74 },
+]);
+
+const matrixColumns = JSON.stringify([
+  { key: "layer", header: "Layer" },
+  { key: "artifact", header: "Artifact" },
+  { key: "state", header: "State" },
+]);
+
+const matrixRows = JSON.stringify([
+  { layer: "Atom", artifact: "Button, badge, icon, field", state: "Ready" },
+  { layer: "Molecule", artifact: "Search, filter, rating", state: "Ready" },
+  { layer: "Organism", artifact: "Board, table, timeline", state: "Ready" },
+  { layer: "Template", artifact: "Responsive app shell", state: "Ready" },
+]);
+
+const gridColumns = JSON.stringify([
+  { key: "token", header: "Token" },
+  { key: "role", header: "Role" },
+  { key: "theme", header: "Rose theme" },
+]);
+
+const gridRows = JSON.stringify([
+  { token: "--apex-color-canvas", role: "Page background", theme: "Light/dark" },
+  { token: "--apex-color-surface", role: "Component panels", theme: "Light/dark" },
+  { token: "--apex-color-accent", role: "Action emphasis", theme: "Rose" },
+  { token: "--apex-space-6", role: "Shell rhythm", theme: "Shared" },
+]);
+
+const tabs = JSON.stringify([
+  { id: "tokens", label: "Tokens" },
+  { id: "components", label: "Components" },
+  { id: "patterns", label: "Patterns" },
+]);
+
+const steps = JSON.stringify([
+  { label: "Specify", description: "Token, behavior, and composition contract" },
+  { label: "Compose", description: "Astro markup with ApexUI custom elements" },
+  { label: "Ship", description: "Static build output with shared app script" },
+]);
+
+const timeline = JSON.stringify([
+  { id: "a", label: "Morning", description: "Atomic inventory reviewed", meta: "09:00" },
+  { id: "b", label: "Midday", description: "Composition routes assembled", meta: "12:30" },
+  { id: "c", label: "Afternoon", description: "Static build verified", meta: "16:00" },
+]);
+
+const workflowColumns = JSON.stringify([
+  {
+    id: "backlog",
+    title: "Backlog",
+    items: [
+      { id: "b1", title: "Token audit", meta: "Design" },
+      { id: "b2", title: "Docs handoff", meta: "DX" },
+    ],
+  },
+  {
+    id: "active",
+    title: "Active",
+    items: [
+      { id: "a1", title: "Astro shell", meta: "Static" },
+      { id: "a2", title: "Theme switch", meta: "App script" },
+    ],
+  },
+  {
+    id: "done",
+    title: "Done",
+    items: [
+      { id: "d1", title: "ApexUI imports", meta: "Direct" },
+      { id: "d2", title: "Responsive layout", meta: "CSS" },
+    ],
+  },
+]);
+
+const treeItems = JSON.stringify([
+  {
+    id: "app",
+    label: "App",
+    children: [
+      { id: "layout", label: "Layout" },
+      { id: "page", label: "Page" },
+      { id: "script", label: "Theme script" },
+    ],
+  },
+  {
+    id: "system",
+    label: "System",
+    children: [
+      { id: "atoms", label: "Atoms" },
+      { id: "molecules", label: "Molecules" },
+      { id: "organisms", label: "Organisms" },
+    ],
+  },
+]);
+
+const modes = JSON.stringify([
+  { label: "Design", value: "design" },
+  { label: "Build", value: "build" },
+  { label: "Review", value: "review" },
+]);
+
+const releases = JSON.stringify([
+  { label: "Static app", value: "static" },
+  { label: "Docs portal", value: "docs" },
+  { label: "Dashboard", value: "dashboard" },
+]);
 ---
-<BaseLayout><main class="demo-shell"><div class="demo-frame"><apex-app-bar title="ApexUI Astro Atlas"><apex-button size="sm">Build</apex-button></apex-app-bar><section class="demo-hero"><div class="demo-panel"><apex-stack gap="md"><apex-badge tone="info">Astro static-first</apex-badge><apex-typography as="h1" variant="display">Content route with live custom elements</apex-typography><apex-typography variant="body">Astro ships static markup and registers ApexUI custom elements once in the shared layout.</apex-typography><div class="demo-actions"><apex-button>Publish page</apex-button><apex-button variant="secondary">Open collection</apex-button></div><apex-search-form label="Find docs" placeholder="Search content"></apex-search-form></apex-stack></div><apex-card eyebrow="Static" title="Hydration only where needed"><apex-progress label="HTML first" value="96"></apex-progress><apex-rating label="Editorial fit" value="4"></apex-rating></apex-card></section><section class="demo-grid"><apex-chart label="Astro support" data={chartData}></apex-chart><apex-image-list items='["Tokens","Custom elements","Pages"]'></apex-image-list><apex-empty-state title="No island required" description="This page proves the custom-element path first."></apex-empty-state></section><apex-data-table caption="Astro matrix" columns={columns} rows={rows}></apex-data-table><apex-alert tone="success" title="Astro demo live">This repo installs @apexui/web-components from npm.</apex-alert></div></main></BaseLayout>
+
+<BaseLayout title="ApexUI Astro Demo">
+  <main class="app-main">
+    <div class="app-page">
+      <apex-breadcrumbs items={breadcrumbs} label="Demo breadcrumb"></apex-breadcrumbs>
+
+      <section class="app-hero" aria-labelledby="hero-title">
+        <div class="app-copy">
+          <apex-stack gap="lg">
+            <apex-badge tone="success">Rose token theme</apex-badge>
+            <apex-typography id="hero-title" as="h1" variant="display">
+              Atomic Astro operations console
+            </apex-typography>
+            <apex-typography variant="body">
+              Static page markup composes ApexUI atoms, molecules, organisms, and templates with one app-level theme switch.
+            </apex-typography>
+            <div class="app-actions">
+              <apex-button size="lg">Run release</apex-button>
+              <apex-button variant="secondary" size="lg">View system</apex-button>
+            </div>
+          </apex-stack>
+        </div>
+
+        <div class="app-card-stack">
+          <apex-card eyebrow="Template" heading="Release pulse">
+            <apex-progress label="Static readiness" value="94"></apex-progress>
+            <apex-rating label="System fit" value="5"></apex-rating>
+          </apex-card>
+          <apex-alert tone="info" heading="Theme live">
+            Switch header control updates `data-apex-theme` between rose-light and rose-dark.
+          </apex-alert>
+        </div>
+      </section>
+
+      <section id="system" class="app-section" aria-labelledby="system-title">
+        <div class="app-section-header">
+          <div>
+            <apex-typography id="system-title" as="h2" variant="title">Atomic system</apex-typography>
+            <apex-typography variant="body">Small primitives combine into static product surfaces.</apex-typography>
+          </div>
+          <apex-tabs label="System layers" items={tabs} active-id="components"></apex-tabs>
+        </div>
+
+        <div class="app-grid app-grid-four">
+          <apex-card eyebrow="Atom" heading="Actions">
+            <div class="app-actions">
+              <apex-button size="sm">Save</apex-button>
+              <apex-button variant="secondary" size="sm">Fork</apex-button>
+              <apex-button variant="danger" size="sm">Block</apex-button>
+            </div>
+          </apex-card>
+          <apex-card eyebrow="Atom" heading="Status">
+            <div class="app-actions">
+              <apex-badge tone="success">Live</apex-badge>
+              <apex-badge tone="warning">Draft</apex-badge>
+              <apex-chip selected>Rose</apex-chip>
+            </div>
+          </apex-card>
+          <apex-card eyebrow="Atom" heading="Identity">
+            <div class="app-actions">
+              <apex-avatar initials="AU" alt="ApexUI team" size="lg"></apex-avatar>
+              <apex-icon name="sparkle" label="System icon" size="lg"></apex-icon>
+            </div>
+          </apex-card>
+          <apex-card eyebrow="Atom" heading="Inputs">
+            <apex-checkbox label="Static output" checked></apex-checkbox>
+            <apex-slider label="Coverage" value="82"></apex-slider>
+          </apex-card>
+        </div>
+      </section>
+
+      <section id="compose" class="app-section" aria-labelledby="compose-title">
+        <div class="app-section-header">
+          <div>
+            <apex-typography id="compose-title" as="h2" variant="title">Composition workspace</apex-typography>
+            <apex-typography variant="body">Forms, filters, and content blocks share one token surface.</apex-typography>
+          </div>
+          <apex-toggle-group label="Mode" options={modes} value="build"></apex-toggle-group>
+        </div>
+
+        <div class="app-two-column">
+          <apex-card eyebrow="Molecule" heading="Release intake">
+            <div class="app-form-grid">
+              <apex-search-form label="Find component" placeholder="Search ApexUI"></apex-search-form>
+              <apex-select label="Target" options={releases} value="static"></apex-select>
+              <apex-text-field label="Owner" value="Design systems"></apex-text-field>
+              <apex-textarea label="Notes" rows="4" value="Use custom elements directly in Astro markup."></apex-textarea>
+            </div>
+          </apex-card>
+
+          <apex-card eyebrow="Molecule" heading="Information map">
+            <apex-tree-view label="Atomic tree" items={treeItems}></apex-tree-view>
+            <apex-divider label="Flow"></apex-divider>
+            <apex-stepper steps={steps} active-index="1"></apex-stepper>
+          </apex-card>
+        </div>
+      </section>
+
+      <section id="ship" class="app-section" aria-labelledby="ship-title">
+        <div class="app-section-header">
+          <div>
+            <apex-typography id="ship-title" as="h2" variant="title">Delivery board</apex-typography>
+            <apex-typography variant="body">Organisms carry real release state without framework islands.</apex-typography>
+          </div>
+          <apex-toolbar label="Release tools">
+            <apex-button size="sm">Deploy</apex-button>
+            <apex-button size="sm" variant="secondary">Export</apex-button>
+          </apex-toolbar>
+        </div>
+
+        <div class="app-two-column app-two-column-wide">
+          <apex-card eyebrow="Organism" heading="Workflow">
+            <apex-workflow-board columns={workflowColumns}></apex-workflow-board>
+          </apex-card>
+          <div class="app-card-stack">
+            <apex-card eyebrow="Organism" heading="Health">
+              <apex-chart label="ApexUI readiness" data={chartData}></apex-chart>
+            </apex-card>
+            <apex-card eyebrow="Organism" heading="Timeline">
+              <apex-timeline events={timeline}></apex-timeline>
+            </apex-card>
+          </div>
+        </div>
+
+        <div class="app-two-column">
+          <apex-data-table caption="Atomic matrix" columns={matrixColumns} rows={matrixRows}></apex-data-table>
+          <apex-data-grid caption="Token usage" columns={gridColumns} rows={gridRows}></apex-data-grid>
+        </div>
+      </section>
+
+      <section class="app-section" aria-labelledby="finish-title">
+        <apex-card eyebrow="Page" heading="Static app handoff">
+          <div class="app-two-column">
+            <apex-empty-state
+              align="start"
+              heading="No framework island required"
+              description="ApexUI custom elements register once and upgrade static Astro HTML in place."
+            ></apex-empty-state>
+            <apex-accordion heading="Build scope" open>
+              Layout, page, theme script, and composition CSS stay inside this Astro demo.
+            </apex-accordion>
+          </div>
+        </apex-card>
+      </section>
+    </div>
+  </main>
+</BaseLayout>
