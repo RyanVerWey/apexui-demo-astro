@@ -1,0 +1,3 @@
+# ApexUI Astro Demo
+
+Public GitHub Pages demo using ApexUI custom elements in Astro.
